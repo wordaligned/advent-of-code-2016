@@ -1,3 +1,4 @@
+from collections import deque
 import re
 import sys
 
@@ -17,14 +18,17 @@ screen = [0] * W*H
 def rect(w, h):
     for y in range(h):
         screen[y*W:y*W + w] = [1]*w
-    
+
+def rotate(s, r):
+    rc = deque(screen[s])
+    rc.rotate(r)
+    screen[s] = rc
+
 def column(x, r):
-    col = screen[x::W]
-    screen[x::W] = col[H-r:] + col[:H-r]
+    rotate(slice(x,-1,W), r)
 
 def row(y, r):
-    row = screen[y*W:(y + 1)*W]
-    screen[y*W:(y + 1)*W] = row[W-r:] + row[:W-r]
+    rotate(slice(y*W,(y+1)*W), r)
 
 mrect=re.compile('(rect) (\d+)x(\d+)').match
 mcol=re.compile('rotate (column) x=(\d+) by (\d+)').match
