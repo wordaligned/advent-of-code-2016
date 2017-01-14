@@ -13,10 +13,13 @@ data = sys.stdin.read()
 regs = {r: 0 for r in 'abcd'}
 pos, cmds = 0, data.splitlines()
 
-while pos < len(cmds):
+def val(v):
+    return regs[v] if v in regs else int(v)
+
+while 0 <= pos < len(cmds):
     cmd = cmds[pos].split()
     if cmd[0] == 'cpy':
-        regs[cmd[2]] = regs[cmd[1]] if cmd[1] in regs else int(cmd[1])
+        regs[cmd[2]] = val(cmd[1])
         pos += 1
     elif cmd[0] == 'inc':
         regs[cmd[1]] += 1
@@ -26,7 +29,7 @@ while pos < len(cmds):
         pos += 1
     else:
         assert(cmd[0]) == 'jnz'
-        test = regs[cmd[1]] if cmd[1] in regs else int(cmd[1])
+        test = val(cmd[1])
         pos = pos + (int(cmd[2]) if test else 1)
 
 print(regs['a'])
