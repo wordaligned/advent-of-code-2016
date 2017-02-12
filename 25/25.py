@@ -19,7 +19,6 @@ def val(v):
 signal = [i % 2 for i in range(100)]
 
 for n in count():
-    print(n)
     regs = {r: 0 for r in 'bcd'}
     regs['a'] = n
     output = []
